@@ -1,1 +1,39 @@
+/*
+ This is the example of serial data reception
+ in this case laptop is senmding the dataserially to arduino board via usb port
+ arduino will recieve the data serially and we will use the serial data byte
+ recieved for controlling the onboard LED`
+ If a is recieved serially then LED will be turned ON, Acknoledgement will be sent back "LED is ON"
+ If B is recieved serially then LED will be turned OFF, Acknowledgement will be sent back "LED is OFF" 
+ */
+char temp; // variable to recieve serial data byte
+int myLed = 13; //my Led refers to pin no. 13 of Arduino
+ 
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600); // initialize serial communication at 9600bps baud rate
+  pinMode(myLed,OUTPUT); // configure pin 13 as output pin
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  while(!Serial.available()); // stay here in case no serial data is recieved
+  if(Serial.available()>0)
+  {
+    temp = Serial.read(); // read the data byte recieved and store in variable temp
+    if(temp=='A')
+    {
+     //turn ON the LED
+     digitalWrite(myLed,HIGH);
+     Serial.println("LED is ON");
+    }
+    if(temp=='8')
+    {
+      //turn OFF the LED
+      digitalWrite(myLed,LOW);
+      Serial.println("LED is OFF");
+    }
+  }
+
+}
 
